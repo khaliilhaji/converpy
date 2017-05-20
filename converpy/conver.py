@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+import argparse
 
 input_err = "Incorrect input!!"
 
@@ -45,6 +46,10 @@ def commandline():
         result.append(miles_to_km(float(arguments[x])))
     return result
 
+def Main():
+    parser = argparse.ArgumentParser(description = "Convert units")
+    args = parser.parse_args()
+    return args
 
 if __name__ == '__main__':
-    print(commandline())
+    print(Main())
