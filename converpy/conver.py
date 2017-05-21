@@ -1,55 +1,24 @@
 #!/usr/bin/env python3
-import sys
 import argparse
-
-input_err = "Incorrect input!!"
-
-def check_type(x):
-    if type(x) is int or type(x) is float:
-        return True
-    else:
-        return False
-
-def miles_to_km(miles):
-    if check_type(miles):
-        km = miles*1.60934
-        return km
-    else:
-        return input_err
-
-def km_to_miles(km):
-    if check_type(km):
-        miles = km/1.60934
-        return km
-    else:
-        return input_err
+import conversions as convert
 
 
-def kg_to_pounds(kg):
-    if check_type(kg):
-        pounds = kg*2.2046226218
-        return pounds
-    else:
-        return input_err
+input_function_map = {
+    "milestokm": convert.miles_to_km,
+    "kmtomiles": convert.km_to_miles,
+    "kgtopounds": convert.kg_to_pounds,
+    "poundstokg": convert.pounds_to_kg
+}
 
-def pound_to_kg(pounds):
-    if check_type(pounds):
-        kg = pounds/2.2046226218
-        return kg
-    else:
-        return input_err
+parser = argparse.ArgumentParser(prog = "ConverPy")
+parser.add_argument('operation', choices = input_function_map.keys(), type = str, help = "the conversion operation to be performed")
+parser.add_argument('input', type = float, help = "value to be converted")
 
-def commandline():
-    arguments = sys.argv
-    result = []
-    for x in range(1, len(arguments)):
-        result.append(miles_to_km(float(arguments[x])))
-    return result
+args = parser.parse_args()
+operation = input_function_map[args.operation]
 
-def Main():
-    parser = argparse.ArgumentParser(description = "Convert units")
-    args = parser.parse_args()
-    return args
+def main():
+    return operation(args.input)
 
-if __name__ == '__main__':
-    print(Main())
+if __name__ == "__main__":
+    print(main())
